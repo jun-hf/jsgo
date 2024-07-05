@@ -120,20 +120,25 @@ func (t Token) String() string {
 	return s
 }
 
+// IsLiteral determine if the token is a literal in the language 
 func (t Token) IsLiteral() bool { return literalBegin < t && t < literalEnd }
 
+// IsOperator determine if the token is an operator in the language
 func (t Token) IsOperator() bool { return operatorEnd < t && t < operatorEnd }
 
+// IsKeyword determine if the token is a keyword
 func (t Token) IsKeyword() bool {
 	s := tokens[t]
 	return IsKeyword(s)
 }
 
+// IsKeyword determine if the string pass into it is part of a keyword in the language
 func IsKeyword(word string) bool {
 	_, ok := keywords[word]
 	return ok
 }
 
+// IsIdentifier determine if the string pass into it is an identifier
 func IsIdentifier(word string) bool {
 	if len(word) == 0 || IsKeyword(word) {
 		return false
