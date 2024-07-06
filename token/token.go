@@ -1,6 +1,7 @@
 package token
 
 import (
+	"errors"
 	"strconv"
 )
 
@@ -16,6 +17,7 @@ const (
 	IDENT // apple
 	NUMBER // 89
 	STRING // "number"
+	FLOAT // 81.0
 
 	literalEnd
 
@@ -79,6 +81,7 @@ var tokens = [...]string{
 	IDENT:      "IDENTIFIER",
 	NUMBER:     "NUMBER",
 	STRING:     "STRING",
+	FLOAT: "FLOAT",
 	ADD:        "+",
 	MINUS:      "-",
 	MUL:        "*",
@@ -124,7 +127,7 @@ func (t Token) String() string {
 func (t Token) IsLiteral() bool { return literalBegin < t && t < literalEnd }
 
 // IsOperator determine if the token is an operator in the language
-func (t Token) IsOperator() bool { return operatorEnd < t && t < operatorEnd }
+func (t Token) IsOperator() bool { return operatorBegin < t && t < operatorEnd }
 
 // IsKeyword determine if the token is a keyword
 func (t Token) IsKeyword() bool {
@@ -144,4 +147,14 @@ func IsIdentifier(word string) bool {
 		return false
 	}
 	return true
+}
+
+// Keyword returns the respective token for the given word, 
+// if word is not a Keyword in the language it will return error
+func Keyword(word string) (Token, error) {
+	tok, ok := keywords[word]
+	if !ok {
+		return ILLEGAL, errors.New(word + "is not part of jsgo keyword")
+	}
+	return tok, nil
 }
