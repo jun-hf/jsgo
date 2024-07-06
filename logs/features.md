@@ -8,5 +8,5 @@
 # Extension
 1. Rebuild the token implementations
 2. Implemented the error checking
-3. 
+3. Supporting float type
 
